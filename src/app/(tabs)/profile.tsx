@@ -17,6 +17,7 @@ const MENU_ITEMS = [
 const ProfileScreen = () => {
   const { signOut } = useAuth()
   const { user} = useUser()
+  
 
   return (
     <SafeAreaView className='flex-1 bg-background'>

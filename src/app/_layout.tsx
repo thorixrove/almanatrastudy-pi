@@ -5,6 +5,8 @@ import { tokenCache } from "@clerk/clerk-expo/token-cache"
 import * as Sentry from '@sentry/react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { AppProvider } from "@/contexts/AppProvider";
+import ChatWrapper from "@/components/ChatWrapper";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,10 +23,14 @@ export default function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <GestureHandlerRootView className="flex-1">
-      <Stack screenOptions={{ headerShown: false }}>
+        <ChatWrapper>
+        <AppProvider>
+        <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
-      </Stack>
+        </Stack>
+      </AppProvider>
+      </ChatWrapper>
       </GestureHandlerRootView>
     </ClerkProvider>
   )
