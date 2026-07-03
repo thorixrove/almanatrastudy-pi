@@ -7,9 +7,9 @@ const vw = (percent: number) => (width * percent) / 100;
 
 // these colors are matching tailwind.config.js
 export const COLORS = {
-  primary: "#6C5CE7",
-  primaryDark: "#5A4BD1",
-  primaryLight: "#A29BFE",
+  primary: "#0EA5E9",
+  primaryDark: "#0F2942",
+  primaryLight: "#38BDF8",
   primaryTransparent: "rgba(108, 92, 231, 0.5)",
 
   background: "#0F0E17",
