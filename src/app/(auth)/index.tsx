@@ -34,7 +34,7 @@ const AuthScreen = () => {
                     className="text-2xl font-extrabold text-foreground tracking-tight mt-4"
                     style={{ fontFamily: Platform.select({ ios: "Menlo", android: "monospace" }) }}
                     >
-                    AlmanatraStudy 
+                    AlmanatraStudy
                     </Text>
 
                     <Text className="text-foreground-muted text-[15px] mt-1.5 tracking-wide">
@@ -123,7 +123,7 @@ const AuthScreen = () => {
                             onPress={() => !isLoading && handleSocialAuth("oauth_apple")}
                             >
                             {loadingStrategy === "oauth_apple" ? (
-                                <ActivityIndicator size="small" color="#6C5CE7" />
+                                <ActivityIndicator size="small" color="#0EA5E9" />
                             ) : (
                                 <Ionicons name="logo-apple" size={30} color="#FFFFFE" />
                             )}
@@ -138,7 +138,7 @@ const AuthScreen = () => {
                         onPress={() => !isLoading && handleSocialAuth("oauth_github")}
                         >
                         {loadingStrategy === "oauth_github" ? (
-                            <ActivityIndicator size="small" color="#6C5CE7" />
+                            <ActivityIndicator size="small" color="#0EA5E9" />
                         ) : (
                             <Ionicons name="logo-github" size={28} color="#FFFFFE" />
                         )}
