@@ -1,7 +1,7 @@
 import { AlmanatraStudyTheme } from "@/lib/theme";
 import { useUser } from "@clerk/clerk-expo";
 import type { UserResource } from "@clerk/types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useCallback } from "react";
 import { Chat, OverlayProvider, useCreateChatClient } from "stream-chat-expo";
 import { FullScreenLoader } from "./FullScreenLoader";
 
@@ -29,14 +29,13 @@ const ChatClient = ({ children, user }: { children: React.ReactNode; user: UserR
   const syncedRef = useRef(false);
 
   useEffect(() => {
-    // this if statements is needed so that we don't run this method multiple times. only once!
     if (!syncedRef.current) {
       syncedRef.current = true;
       syncUserToStream(user);
     }
   }, [user]);
 
-  const tokenProvider = async () => {
+  const tokenProvider = useCallback(async () => {
     try {
       const response = await fetch("/api/token", {
         method: "POST",
@@ -52,15 +51,20 @@ const ChatClient = ({ children, user }: { children: React.ReactNode; user: UserR
       });
       Sentry.captureException(error, { extra: { userId: user.id, hook: "tokenProvider" } });
     }
-  };
+  }, [user.id]);
 
-  const chatClient = useCreateChatClient({
-    apiKey: STREAM_API_KEY,
-    userData: {
+  const userData = useMemo(
+    () => ({
       id: user.id,
       name: user.fullName ?? user.username ?? user.emailAddresses[0].emailAddress.split("@")[0],
       image: user.imageUrl,
-    },
+    }),
+    [user.id, user.fullName, user.username, user.imageUrl]
+  );
+
+  const chatClient = useCreateChatClient({
+    apiKey: STREAM_API_KEY,
+    userData,
     tokenOrProvider: tokenProvider,
   });
 
@@ -80,11 +84,8 @@ const ChatWrapper = ({ children }: { children: React.ReactNode }) => {
 
   if (!isLoaded) return <FullScreenLoader message="Loading chat..." />;
 
-  // not signed in — render children directly (auth screens)
   if (!user) return <>{children}</>;
 
   return <ChatClient user={user}>{children}</ChatClient>;
 };
 export default ChatWrapper;
-
-// TODO: ADD sentry logs link in the video
