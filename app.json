@@ -44,12 +44,17 @@
         }
       ],
       "expo-audio",
-      "expo-sharing",
-      "expo-video"
+      [
+        "@config-plugins/react-native-webrtc",
+        {
+          "cameraPermission": "Aplikasi ini membutuhkan akses kamera untuk video call",
+          "microphonePermission": "Aplikasi ini membutuhkan akses mikrofon untuk panggilan suara/video"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": false
     },
     "extra": {
       "router": {},
