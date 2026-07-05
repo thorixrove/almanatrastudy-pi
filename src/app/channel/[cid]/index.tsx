@@ -3,12 +3,12 @@ import { FullScreenLoader } from "@/components/FullScreenLoader";
 import { useAppContext } from "@/contexts/AppProvider";
 import { COLORS } from "@/lib/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useHeaderHeight } from "expo-router/build/react-navigation";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { Image } from "expo-image";
 import { useNavigation, useRouter } from "expo-router";
 import { useLayoutEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Channel, MessageComposer, MessageList, useChatContext } from "stream-chat-expo";
+import { Channel, MessageInput, MessageList, useChatContext } from "stream-chat-expo";
 
 const ChannelScreen = () => {
   const { channel, setThread } = useAppContext();
@@ -104,7 +104,7 @@ const ChannelScreen = () => {
         />
 
         <View className="pb-5 bg-surface">
-          <MessageComposer audioRecordingEnabled/>
+          <MessageInput audioRecordingEnabled/>
         </View>
       </Channel>
     </View>
