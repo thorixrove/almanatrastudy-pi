@@ -42,7 +42,10 @@
           "project": "almanatrastudy",
           "organization": "alamanatra"
         }
-      ]
+      ],
+      "expo-audio",
+      "expo-sharing",
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true,
