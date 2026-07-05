@@ -53,6 +53,8 @@ const ChatClient = ({ children, user }: { children: React.ReactNode; user: UserR
     }
   }, [user.id]);
 
+  
+
   const userData = useMemo(
     () => ({
       id: user.id,

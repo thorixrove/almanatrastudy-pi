@@ -16,7 +16,9 @@ Sentry.init({
   enableLogs: true,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1,
-  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
+  integrations: [Sentry.mobileReplayIntegration(
+    
+  ), Sentry.feedbackIntegration()],
 });
 
 export default function RootLayout() {
