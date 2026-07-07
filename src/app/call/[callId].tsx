@@ -25,40 +25,67 @@ const CallScreen = () => {
   const [call, setCall] = useState<Call | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!videoClient || !callId) return;
 
-    const startCall = async () => {
-      try {
-        // find channel by ID to find its members
-        const channel = chatClient.channel("messaging", callId);
-        await channel.watch();
 
-        const _call = videoClient.call("default", callId);
 
-        const members = Object.values(channel.state.members).map((member) => ({
-          user_id: member?.user?.id as string,
-        }));
+useEffect(() => {
+     console.log("EFFECT JALAN - videoClient:", videoClient, "callId:", callId);
+  
+  if (!videoClient || !callId) {
+    console.log("BERHENTI DI SINI - videoClient tidak ada atau callId kosong");
+    return;
+  }
+  if (!videoClient || !callId) return;
 
-        await _call.getOrCreate({
-          ring: true,
-          data: {
-            members,
-            custom: {
-              triggeredBy: chatClient.user?.id,
-            },
+  let cancelled = false;
+
+  const startCall = async () => {
+    try {
+      console.log("STEP 1: mulai startCall, callId =", callId);
+
+      const channel = chatClient.channel("messaging", callId);
+      console.log("STEP 2: channel dibuat, mulai watch...");
+
+      await channel.watch();
+      console.log("STEP 3: channel.watch() selesai");
+
+      const _call = videoClient.call("default", callId);
+      console.log("STEP 4: video call object dibuat");
+
+      const members = Object.values(channel.state.members).map((member) => ({
+        user_id: member?.user?.id as string,
+      }));
+      console.log("STEP 5: members =", JSON.stringify(members));
+
+      console.log("STEP 6: mulai getOrCreate...");
+      await _call.getOrCreate({
+        ring: true,
+        data: {
+          members,
+          custom: {
+            triggeredBy: chatClient.user?.id,
           },
-        });
+        },
+      });
+      console.log("STEP 7: getOrCreate SELESAI, call siap");
 
-        setCall(_call);
-      } catch (error) {
-        console.error("Failed to start call:", error);
-        setError("Failed to start the call. Try again");
-      }
-    };
-    startCall();
-    // eslint-disable-next-line
-  }, []);
+      if (!cancelled) setCall(_call);
+    } catch (error) {
+      console.error("STEP ERROR: Failed to start call:", error);
+      if (!cancelled) setError("Failed to start the call. Try again");
+    }
+  };
+
+  startCall();
+
+  return () => {
+    cancelled = true;
+  };
+}, [videoClient, callId]);
+
+
+
+
 
   if (error) return <ErrorCallUI error={error} />;
 

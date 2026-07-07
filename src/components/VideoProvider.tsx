@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context"
 import { COLORS } from "@/lib/theme"
 import { useUser } from "@clerk/clerk-expo"
-import { Call, name } from "@stream-io/video-react-native-sdk"
+import { Call } from "@stream-io/video-react-native-sdk"
 import { useEffect, useState } from "react"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 
@@ -16,13 +16,13 @@ let RingingCallContent: any = null
 try {
     const sdk = require("@stream-io/video-react-native-sdk")
     StreamVideo = sdk.StreamVideo
-    StreamVideo = sdk.StreamVideo
     StreamVideoClient = sdk.StreamVideoClient
     useCalls = sdk.useCalls
-    StreamCall = sdk.RingingCallContent
+    StreamCall = sdk.StreamCall
+    RingingCallContent = sdk.RingingCallContent
 
 } catch (error) {
-    console.log("Error while impoerting @stream-io/video-react-native-sdk", error)
+    console.log("Error while importing @stream-io/video-react-native-sdk", error)
     
 }
 
@@ -68,7 +68,7 @@ const VideoProvider = ({ children }: { children: React.ReactNode }) => {
             user: {
                 id: user.id,
                 name: user.fullName ?? user.username ?? "Guest",
-                Image: user.imageUrl,
+                image: user.imageUrl,
             },
             tokenProvider,
         })

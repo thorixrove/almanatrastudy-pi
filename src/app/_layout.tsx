@@ -7,6 +7,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AppProvider } from "@/contexts/AppProvider";
 import ChatWrapper from "@/components/ChatWrapper";
+import VideoProvider from "@/components/VideoProvider";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -26,12 +27,14 @@ export default function RootLayout() {
     <ClerkProvider tokenCache={tokenCache}>
       <GestureHandlerRootView className="flex-1">
         <ChatWrapper>
+          <VideoProvider>
         <AppProvider>
         <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
         </Stack>
       </AppProvider>
+      </VideoProvider>
       </ChatWrapper>
       </GestureHandlerRootView>
     </ClerkProvider>
